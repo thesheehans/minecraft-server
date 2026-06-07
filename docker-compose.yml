@@ -15,7 +15,7 @@ services:
     environment:
     - SECRET_KEY=${PLAYITGG_SECRET_KEY}
     networks:
-      - game-network
+      - minecraft-network
   watchtower:
     container_name: watchtower
     image: nickfedor/watchtower:latest
@@ -29,7 +29,7 @@ services:
     environment:
       - TZ=Etc/UTC
     networks:
-      - game-network
+      - minecraft-network
     ports:
 #      - "5520-5550:5520-5550/udp" # Hytale
       - "8000:8000" # HTTP
