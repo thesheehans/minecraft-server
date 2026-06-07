@@ -1,0 +1,73 @@
+services:
+  tunnel:
+    container_name: tunnel
+    image: cloudflare/cloudflared
+    command: tunnel run
+    environment:
+     - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    restart: unless-stopped
+  watchtower:
+    container_name: watchtower
+    image: nickfedor/watchtower:latest
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  crafty:
+    container_name: crafty
+    image: registry.gitlab.com/crafty-controller/crafty-4:latest
+    restart: always
+    environment:
+      - TZ=Etc/UTC
+    ports:
+#      - "5520-5550:5520-5550/udp" # Hytale
+      - "8000:8000" # HTTP
+      - "8443:8443" # HTTPS
+#      - "8123:8123" # DYNMAP
+#      - "19132:19132/udp" # BEDROCK
+      - "25500-25600:25500-25600" # MC SERV PORT RANGE
+    volumes:
+      - /data/minecraft/backups:/crafty/backups
+      - /data/minecraft/logs:/crafty/logs
+      - /data/minecraft/servers:/crafty/servers
+      - /data/minecraft/config:/crafty/app/config
+      - /data/minecraft/import:/crafty/import
+  minecraft-server:
+    image: itzg/minecraft-server:latest
+    container_name: minecraft-server
+    ports:
+      - 25565:25565
+    environment:
+      SERVER_NAME: "Default World"
+      MOTD: "Issues, contact Bryce"
+      EULA: "TRUE"
+      TYPE: "VANILLA"
+#      VERSION: "1.21.11"
+      MODE: "survival"
+      MEMORY: "2G"
+      LEVEL_TYPE: "DEFAULT"
+      ENABLE_RCON: "true"
+      RCON_PASSWORD: ${MINECRAFT_RCON_PASSWORD}
+      RCON_PORT: 28016
+      SERVER_PORT: 25565
+      ENABLE_WHITELIST: "true"
+      WHITELIST: "ctrl_freak,${MINECRAFT_WHITELISTED_PLAYERS}"
+      OPS: "${MINECRAFT_OPS_PLAYERS}"
+      MAX_PLAYERS: 20
+      ANNOUNCE_PLAYER_ACHIEVEMENTS: "true"
+      SPAWN_ANIMALS: "true"
+      SPAWN_MONSTERS: "true"
+      PVP: "true"
+      LEVEL: "world01"
+      TZ: ${TIMEZONE}
+      GUI: "FALSE"
+      MODS_FILE: /extras/mods.txt
+      REMOVE_OLD_MODS: "true"
+    restart: unless-stopped
+    user: "${UID}:${GID}"
+    volumes:
+      - /data/minecraft:/data
+      - /data/minecraft/mods.txt:/extras/mods.txt:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
