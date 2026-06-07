@@ -1,6 +1,6 @@
 services:
   tunnel:
-    container_name: tunnel
+#    container_name: minecraft-tunnel
     image: cloudflare/cloudflared
     command: tunnel run
     environment:
@@ -13,7 +13,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
   crafty:
-    container_name: crafty
+#    container_name: crafty
     image: registry.gitlab.com/crafty-controller/crafty-4:latest
     restart: always
     environment:
@@ -33,7 +33,7 @@ services:
       - /data/minecraft/import:/crafty/import
   minecraft-server:
     image: itzg/minecraft-server:latest
-    container_name: minecraft-server
+#    container_name: minecraft-server
     ports:
       - 25565:25565
     environment:
