@@ -8,7 +8,7 @@ services:
     restart: unless-stopped
   playit:
     image: ghcr.io/playit-cloud/playit-agent:latest
-    network_mode: host
+#    network_mode: host
     environment:
     - SECRET_KEY=${PLAYITGG_SECRET_KEY}
   watchtower:
