@@ -31,43 +31,43 @@ services:
       - /data/minecraft/servers:/crafty/servers
       - /data/minecraft/config:/crafty/app/config
       - /data/minecraft/import:/crafty/import
-  minecraft-server:
-    image: itzg/minecraft-server:latest
-#    container_name: minecraft-server
-    ports:
-      - 25565:25565
-    environment:
-      SERVER_NAME: "Default World"
-      MOTD: "Issues, contact Bryce"
-      EULA: "TRUE"
-      TYPE: "VANILLA"
-#      VERSION: "1.21.11"
-      MODE: "survival"
-      MEMORY: "2G"
-      LEVEL_TYPE: "DEFAULT"
-      ENABLE_RCON: "true"
-      RCON_PASSWORD: ${MINECRAFT_RCON_PASSWORD}
-      RCON_PORT: 28016
-      SERVER_PORT: 25565
-      ENABLE_WHITELIST: "true"
-      WHITELIST: "ctrl_freak,${MINECRAFT_WHITELISTED_PLAYERS}"
-      OPS: "${MINECRAFT_OPS_PLAYERS}"
-      MAX_PLAYERS: 20
-      ANNOUNCE_PLAYER_ACHIEVEMENTS: "true"
-      SPAWN_ANIMALS: "true"
-      SPAWN_MONSTERS: "true"
-      PVP: "true"
-      LEVEL: "world01"
-      TZ: ${TIMEZONE}
-      GUI: "FALSE"
-      MODS_FILE: /extras/mods.txt
-      REMOVE_OLD_MODS: "true"
-    restart: unless-stopped
-    user: "${UID}:${GID}"
-    volumes:
-      - /data/minecraft:/data
-      - /data/minecraft/mods.txt:/extras/mods.txt:ro
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
+#  minecraft-server:
+#    image: itzg/minecraft-server:latest
+##    container_name: minecraft-server
+#    ports:
+#      - 25565:25565
+#    environment:
+#      SERVER_NAME: "Default World"
+#      MOTD: "Issues, contact Bryce"
+#      EULA: "TRUE"
+#      TYPE: "VANILLA"
+##      VERSION: "1.21.11"
+#      MODE: "survival"
+#      MEMORY: "2G"
+#      LEVEL_TYPE: "DEFAULT"
+#      ENABLE_RCON: "true"
+#      RCON_PASSWORD: ${MINECRAFT_RCON_PASSWORD}
+#      RCON_PORT: 28016
+#      SERVER_PORT: 25565
+#      ENABLE_WHITELIST: "true"
+#      WHITELIST: "ctrl_freak,${MINECRAFT_WHITELISTED_PLAYERS}"
+#      OPS: "${MINECRAFT_OPS_PLAYERS}"
+#      MAX_PLAYERS: 20
+#      ANNOUNCE_PLAYER_ACHIEVEMENTS: "true"
+#      SPAWN_ANIMALS: "true"
+#      SPAWN_MONSTERS: "true"
+#      PVP: "true"
+#      LEVEL: "world01"
+#      TZ: ${TIMEZONE}
+#      GUI: "FALSE"
+#      MODS_FILE: /extras/mods.txt
+#      REMOVE_OLD_MODS: "true"
+#    restart: unless-stopped
+#    user: "${UID}:${GID}"
+#    volumes:
+#      - /data/minecraft:/data
+#      - /data/minecraft/mods.txt:/extras/mods.txt:ro
+#    logging:
+#      driver: "json-file"
+#      options:
+#        max-size: "1m"
